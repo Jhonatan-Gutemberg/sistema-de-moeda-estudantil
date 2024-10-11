@@ -57,9 +57,6 @@
  **I want to** receive notification by email,
  **so that** I can to receive coupon code.
 
- ## Class diagram:
-<img src="documents\img\class_diagram.png">
-
 ### UC 011
  **As a:** Teacher
  **I want to** receive coins,
@@ -79,6 +76,9 @@
  **As a:** Institution Educational
  **I want to** teacher in advance,
  **so that** students see the available teacher in advance.
+
+  ## Class diagram:
+<img src="documents\img\class_diagram.png">
 
 
 
