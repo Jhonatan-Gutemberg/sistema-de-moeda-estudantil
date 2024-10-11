@@ -57,6 +57,9 @@
  **I want to** receive notification by email,
  **so that** I can to receive coupon code.
 
+ ## Class diagram:
+<img src="documents\img\class_diagram.png">
+
 
 
 
