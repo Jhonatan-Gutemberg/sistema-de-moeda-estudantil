@@ -31,8 +31,8 @@ public class Vantage {
     @Column(name = "value", nullable = false)
     private double value;
 
-   // @ManyToOne
-   // @JoinColumn(name = "partnercompany")
-    //private PartnerCompany partnerCompany;
+    @ManyToOne
+    @JoinColumn(name = "partnercompany_id")
+    private PartnerCompany partnerCompany;
 
 }
