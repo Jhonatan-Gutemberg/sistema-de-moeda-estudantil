@@ -3,7 +3,7 @@
 ### Intregantes: Jhonatan Gutemberg Rosa Ferreira, Gabriel Henrique Miranda Rodrigues,André Cota Guimarães e Lívia Carolina de Souza Lima
 
 
-## Use case diagram:
+## Use Case Diagram:
 <img src="documents\img\Use_case_diagram.png">
 
 ## User story:
@@ -77,8 +77,11 @@
  **I want to** teacher in advance,
  **so that** students see the available teacher in advance.
 
-  ## Class diagram:
+  ## Class Diagram:
 <img src="documents\img\class_diagram.png">
+
+ ## Component Diagram
+ <img src="documents\img\Component_diagram.png">
 
 
 
