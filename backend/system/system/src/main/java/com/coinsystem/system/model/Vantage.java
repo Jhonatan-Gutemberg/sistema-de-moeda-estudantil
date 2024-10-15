@@ -1,4 +1,4 @@
-package com.studentcoinsystem.model;
+package com.coinsystem.system.model;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -31,10 +31,8 @@ public class Vantage {
     @Column(name = "value", nullable = false)
     private double value;
 
-    @ManyToOne
-    @JoinColumn(name= "partnercompany_id")
-    private PartnerCompany partnerCompany;
-
-    
+   // @ManyToOne
+   // @JoinColumn(name = "partnercompany")
+    //private PartnerCompany partnerCompany;
 
 }

@@ -1,4 +1,4 @@
-package com.studentcoinsystem.model;
+package com.coinsystem.system.model;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

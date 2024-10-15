@@ -1,4 +1,5 @@
-package com.studentcoinsystem.model;
+package com.coinsystem.system.model;
+
 
 public enum UsersType {
     USERS,
