@@ -8,7 +8,9 @@ import java.util.List;
 public interface IPartnerCompanyService {
     PartnerCompany register(PartnerCompanyDTO partnerCompanyDTO);
 
-    List<PartnerCompany> getAllStudent();
+    List<PartnerCompany> getAllPartnerCompany();
+
+    PartnerCompany getPartnerCompanyById(Long id);
 
     PartnerCompany update(Long id, PartnerCompanyDTO partnerCompanyDTO);
 

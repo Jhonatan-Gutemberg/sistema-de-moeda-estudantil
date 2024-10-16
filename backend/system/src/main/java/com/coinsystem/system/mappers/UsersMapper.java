@@ -26,11 +26,11 @@ public class UsersMapper {
         return new Teacher(teacherDTO.name(), teacherDTO.email(), UsersType.TEACHER,teacherDTO.phoneNumber(), teacherDTO.password(),teacherDTO.address(),teacherDTO.salary(),teacherDTO.department());
     }
 
-    public static PartnerCompany TeacherDtoToModel(PartnerCompanyDTO partnerCompanyDTO) {
-        return new PartnerCompany(partnerCompanyDTO.name(), partnerCompanyDTO.email(), UsersType.PARTHERCOMPANY,partnerCompanyDTO.phoneNumber(), partnerCompanyDTO.password(),partnerCompanyDTO.address(),partnerCompanyDTO.cnpj());
+    public static PartnerCompany PartnerCompanyDtoToModel(PartnerCompanyDTO partnerCompanyDTO) {
+        return new PartnerCompany(partnerCompanyDTO.name(), partnerCompanyDTO.email(), UsersType.PARTNERCOMPANY,partnerCompanyDTO.phoneNumber(), partnerCompanyDTO.password(),partnerCompanyDTO.address(),partnerCompanyDTO.cnpj());
     }
 
-    public static InstitutionEducation TeacherDtoToModel(InstitutionEducationDTO institutionEducationDTO) {
+    public static InstitutionEducation InstitutionEducationDtoToModel(InstitutionEducationDTO institutionEducationDTO) {
         return new InstitutionEducation(institutionEducationDTO.name(), institutionEducationDTO.email(), UsersType.INSTITUTIONEDUCATION,institutionEducationDTO.phoneNumber(), institutionEducationDTO.password(),institutionEducationDTO.address(),institutionEducationDTO.cnpj());
     }
     

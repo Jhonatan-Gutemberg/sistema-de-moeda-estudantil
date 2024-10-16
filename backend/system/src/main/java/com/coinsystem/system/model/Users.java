@@ -28,7 +28,7 @@ public class Users {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     protected Long id;
-    @Column(name = "name", nullable = false, unique = true, columnDefinition = "VARCHAR(255)")
+    @Column(name = "name", nullable = false, columnDefinition = "VARCHAR(255)")
     protected String name;
     @Column(name = "email", nullable = false, unique = true, columnDefinition = "VARCHAR(50)")
     protected String email;

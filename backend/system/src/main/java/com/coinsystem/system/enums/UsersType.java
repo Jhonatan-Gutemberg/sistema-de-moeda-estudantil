@@ -6,5 +6,5 @@ public enum UsersType {
     STUDENT,
     TEACHER,
     INSTITUTIONEDUCATION,
-    PARTHERCOMPANY
+    PARTNERCOMPANY
 }
