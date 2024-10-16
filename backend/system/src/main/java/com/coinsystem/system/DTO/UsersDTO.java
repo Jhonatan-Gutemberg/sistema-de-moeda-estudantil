@@ -7,7 +7,7 @@ public record UsersDTO(
         String name,
         String email,
         UsersType type,
-        String phoneNumber,
+        String phone_number,
         String password,
         String address) {
 

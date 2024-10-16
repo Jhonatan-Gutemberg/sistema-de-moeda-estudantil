@@ -10,6 +10,8 @@ public interface ITeacherService {
 
     List<Teacher> getAllTeacher();
 
+    Teacher getTeacherById(Long id);
+
     Teacher update(Long id, TeacherDTO teacherDTO);
 
     boolean delete(Long id);

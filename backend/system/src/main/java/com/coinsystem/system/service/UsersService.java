@@ -47,7 +47,7 @@ public class UsersService implements IUsersService {
         existingUsers.setAddress(usersDTO.address());
         existingUsers.setType(usersDTO.type());
         existingUsers.setEmail(usersDTO.email());
-        existingUsers.setPhoneNumber(usersDTO.phoneNumber());
+        existingUsers.setPhoneNumber(usersDTO.phone_number());
         existingUsers.setPassword(usersDTO.password());
 
         usersRepository.save(existingUsers);

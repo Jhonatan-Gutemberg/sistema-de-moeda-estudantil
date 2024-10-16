@@ -44,7 +44,7 @@ public class StudentService implements IStudentService {
         if (optional.isPresent()) {
             Student existingStudent = optional.get();
             existingStudent.setAddress(studentDTO.address());
-            existingStudent.setPhoneNumber(studentDTO.phoneNumber());
+            existingStudent.setPhoneNumber(studentDTO.phone_number());
             existingStudent.setPassword(studentDTO.password());
 
             studentRepository.save(existingStudent);

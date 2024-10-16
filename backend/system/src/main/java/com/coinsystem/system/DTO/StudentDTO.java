@@ -6,7 +6,7 @@ public record StudentDTO(
         String name,
         String email,
         UsersType type,
-        String phoneNumber,
+        String phone_number,
         String cpf,
         String rg,
         String password,

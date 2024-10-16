@@ -15,23 +15,23 @@ import com.coinsystem.system.model.Users;
 public class UsersMapper {
 
     public static Users UserDtoToModel(UsersDTO userDTO) {
-        return new Users(userDTO.name(), userDTO.email(), UsersType.USERS,userDTO.phoneNumber(), userDTO.password(),userDTO.address());
+        return new Users(userDTO.name(), userDTO.email(), UsersType.USERS,userDTO.phone_number(), userDTO.password(),userDTO.address());
     }
 
     public static Student StudentDtoToModel(StudentDTO studentDTO) {
-        return new Student(studentDTO.name(), studentDTO.email(), UsersType.STUDENT,studentDTO.phoneNumber(), studentDTO.password(),studentDTO.address(),studentDTO.cpf(),studentDTO.rg());
+        return new Student(studentDTO.name(), studentDTO.email(), UsersType.STUDENT,studentDTO.phone_number(), studentDTO.password(),studentDTO.address(),studentDTO.cpf(),studentDTO.rg());
     }
 
     public static Teacher TeacherDtoToModel(TeacherDTO teacherDTO) {
-        return new Teacher(teacherDTO.name(), teacherDTO.email(), UsersType.TEACHER,teacherDTO.phoneNumber(), teacherDTO.password(),teacherDTO.address(),teacherDTO.salary(),teacherDTO.department());
+        return new Teacher(teacherDTO.name(), teacherDTO.email(), UsersType.TEACHER,teacherDTO.phone_number(), teacherDTO.password(),teacherDTO.address(),teacherDTO.salary(),teacherDTO.department());
     }
 
     public static PartnerCompany PartnerCompanyDtoToModel(PartnerCompanyDTO partnerCompanyDTO) {
-        return new PartnerCompany(partnerCompanyDTO.name(), partnerCompanyDTO.email(), UsersType.PARTNERCOMPANY,partnerCompanyDTO.phoneNumber(), partnerCompanyDTO.password(),partnerCompanyDTO.address(),partnerCompanyDTO.cnpj());
+        return new PartnerCompany(partnerCompanyDTO.name(), partnerCompanyDTO.email(), UsersType.PARTNERCOMPANY,partnerCompanyDTO.phone_number(), partnerCompanyDTO.password(),partnerCompanyDTO.address(),partnerCompanyDTO.cnpj());
     }
 
     public static InstitutionEducation InstitutionEducationDtoToModel(InstitutionEducationDTO institutionEducationDTO) {
-        return new InstitutionEducation(institutionEducationDTO.name(), institutionEducationDTO.email(), UsersType.INSTITUTIONEDUCATION,institutionEducationDTO.phoneNumber(), institutionEducationDTO.password(),institutionEducationDTO.address(),institutionEducationDTO.cnpj());
+        return new InstitutionEducation(institutionEducationDTO.name(), institutionEducationDTO.email(), UsersType.INSTITUTIONEDUCATION,institutionEducationDTO.phone_number(), institutionEducationDTO.password(),institutionEducationDTO.address(),institutionEducationDTO.cnpj());
     }
     
 }

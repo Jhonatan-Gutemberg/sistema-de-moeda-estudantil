@@ -6,7 +6,7 @@ public record PartnerCompanyDTO(
         String name,
         String email,
         UsersType type,
-        String phoneNumber,
+        String phone_number,
         String cnpj,
         String password,
         String address) {

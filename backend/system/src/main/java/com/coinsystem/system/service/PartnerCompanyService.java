@@ -44,7 +44,7 @@ public class PartnerCompanyService implements IPartnerCompanyService {
         if (optional.isPresent()) {
             PartnerCompany existingPartnerCompany = optional.get();
             existingPartnerCompany.setAddress(partnerCompanyDTO.address());
-            existingPartnerCompany.setPhoneNumber(partnerCompanyDTO.phoneNumber());
+            existingPartnerCompany.setPhoneNumber(partnerCompanyDTO.phone_number());
             existingPartnerCompany.setPassword(partnerCompanyDTO.password());
 
             partnerCompanyRepository.save(existingPartnerCompany);

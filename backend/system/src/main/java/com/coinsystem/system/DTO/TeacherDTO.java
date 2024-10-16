@@ -6,7 +6,7 @@ public record TeacherDTO(
         String name,
         String email,
         UsersType type,
-        String phoneNumber,
+        String phone_number,
         double salary,
         String department,
         String password,
