@@ -11,6 +11,7 @@ public record StudentDTO(
         String rg,
         String password,
         String address,
-        Long id_teacher) {
+        Long id_teacher,
+        WalletDTO wallet) {
 
 }

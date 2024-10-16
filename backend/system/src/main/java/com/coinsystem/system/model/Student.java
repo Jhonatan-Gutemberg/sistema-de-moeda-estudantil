@@ -5,6 +5,7 @@ import com.coinsystem.system.enums.UsersType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -20,6 +21,9 @@ public class Student extends Users {
     private String cpf;
     @Column(name = "rg", nullable = false, unique = true, columnDefinition = "VARCHAR(255)")
     private String rg;
+
+    @OneToOne
+    private Wallet wallet;
 
     @ManyToOne
     private Teacher teacher;
