@@ -6,7 +6,7 @@ import com.coinsystem.system.model.InstitutionEducation;
 
 import java.util.List;
 
-public interface IInstitutionEducation {
+public interface IInstitutionEducationService {
     InstitutionEducation register(InstitutionEducationDTO teacherDTO);
 
     List<InstitutionEducation> getAllStudent();

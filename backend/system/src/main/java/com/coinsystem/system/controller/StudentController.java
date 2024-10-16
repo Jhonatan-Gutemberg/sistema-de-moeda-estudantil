@@ -14,73 +14,75 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.coinsystem.system.DTO.UsersDTO;
+import com.coinsystem.system.DTO.StudentDTO;
 import com.coinsystem.system.controller.ApiResponse.ApiResponse;
-import com.coinsystem.system.model.Users;
-import com.coinsystem.system.service.interfaces.IUsersService;
+import com.coinsystem.system.model.Student;
+import com.coinsystem.system.service.interfaces.IStudentService;
 
 import jakarta.validation.Valid;
 
 @RestController
-@RequestMapping("/users")
-public class UsersController {
+@RequestMapping("/student")
+public class StudentController {
+
     @Autowired
-    private IUsersService usersSrevice;
+    private IStudentService studentService;
 
     @PostMapping("/register")
-    public ResponseEntity<ApiResponse<Users>> register(@RequestBody @Valid UsersDTO usersDTO) {
+    public ResponseEntity<ApiResponse<Student>> register(@RequestBody @Valid StudentDTO studentDTO) {
         try {
-            Users users = usersSrevice.registerUsers(usersDTO);
-            ApiResponse<Users> response = new ApiResponse<Users>(true, "User registered succesfully", users);
+            Student student = studentService.register(studentDTO);
+            ApiResponse<Student> response = new ApiResponse<Student>(true, "User registered succesfully", student);
             return ResponseEntity.status(HttpStatus.CREATED).body(response);
         } catch (Exception e) {
-            ApiResponse<Users> errorResponse = new ApiResponse<Users>(false, e.getMessage(), null);
+            ApiResponse<Student> errorResponse = new ApiResponse<Student>(false, e.getMessage(), null);
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
         }
     }
 
     @GetMapping("/all")
-    public ResponseEntity<ApiResponse<List<Users>>> getAllUsers() {
+    public ResponseEntity<ApiResponse<List<Student>>> getAllStudent() {
         try {
-            List<Users> users = usersSrevice.getAllUsers();
-            ApiResponse<List<Users>> response = new ApiResponse<>(true, "All users fetched successfully", users);
+            List<Student> Student = studentService.getAllStudent();
+            ApiResponse<List<Student>> response = new ApiResponse<>(true, "All Student fetched successfully", Student);
             return ResponseEntity.ok(response);
         } catch (Exception e) {
-            ApiResponse<List<Users>> errorResponse = new ApiResponse<>(false, e.getMessage(), null);
+            ApiResponse<List<Student>> errorResponse = new ApiResponse<>(false, e.getMessage(), null);
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
         }
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ApiResponse<Users>> getUserById(@PathVariable Long id) {
+    public ResponseEntity<ApiResponse<Student>> getUserById(@PathVariable Long id) {
         try {
-            Users Users = usersSrevice.getUserById(id);
-            if (Users != null) {
-                ApiResponse<Users> response = new ApiResponse<>(true, "Users found successfully", Users);
+            Student student = studentService.getStudentById(id);
+            if (student != null) {
+                ApiResponse<Student> response = new ApiResponse<>(true, "Student found successfully", student);
                 return ResponseEntity.ok(response);
             } else {
-                ApiResponse<Users> response = new ApiResponse<>(false, "Users not found", null);
+                ApiResponse<Student> response = new ApiResponse<>(false, "Student not found", null);
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
             }
         } catch (Exception e) {
-            ApiResponse<Users> errorResponse = new ApiResponse<>(false, e.getMessage(), null);
+            ApiResponse<Student> errorResponse = new ApiResponse<>(false, e.getMessage(), null);
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
         }
     }
 
     @PutMapping("/update/{id}")
-    public ResponseEntity<ApiResponse<Users>> update(@PathVariable Long id, @RequestBody @Valid UsersDTO usersDTO) {
+    public ResponseEntity<ApiResponse<Student>> update(@PathVariable Long id,
+            @RequestBody @Valid StudentDTO studentDTO) {
         try {
-            Users updatedUsers = usersSrevice.update(id, usersDTO);
-            if (updatedUsers != null) {
-                ApiResponse<Users> response = new ApiResponse<>(true, "Users updated successfully", updatedUsers);
+            Student updatedStudent = studentService.update(id, studentDTO);
+            if (updatedStudent != null) {
+                ApiResponse<Student> response = new ApiResponse<>(true, "Student updated successfully", updatedStudent);
                 return ResponseEntity.ok(response);
             } else {
-                ApiResponse<Users> response = new ApiResponse<>(false, "Users not found", null);
+                ApiResponse<Student> response = new ApiResponse<>(false, "Student not found", null);
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
             }
         } catch (Exception e) {
-            ApiResponse<Users> errorResponse = new ApiResponse<>(false, e.getMessage(), null);
+            ApiResponse<Student> errorResponse = new ApiResponse<>(false, e.getMessage(), null);
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
         }
     }
@@ -88,12 +90,12 @@ public class UsersController {
     @DeleteMapping("/{id}")
     public ResponseEntity<ApiResponse<Void>> delete(@PathVariable Long id) {
         try {
-            boolean isDeleted = usersSrevice.delete(id);
+            boolean isDeleted = studentService.delete(id);
             if (isDeleted) {
-                ApiResponse<Void> response = new ApiResponse<>(true, "Users deleted successfully", null);
+                ApiResponse<Void> response = new ApiResponse<>(true, "Student deleted successfully", null);
                 return ResponseEntity.ok(response);
             } else {
-                ApiResponse<Void> response = new ApiResponse<>(false, "Users not found", null);
+                ApiResponse<Void> response = new ApiResponse<>(false, "Student not found", null);
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
             }
         } catch (Exception e) {

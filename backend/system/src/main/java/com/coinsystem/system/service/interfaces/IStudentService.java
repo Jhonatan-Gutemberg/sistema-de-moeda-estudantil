@@ -1,6 +1,5 @@
 package com.coinsystem.system.service.interfaces;
 
-
 import com.coinsystem.system.DTO.StudentDTO;
 import com.coinsystem.system.model.Student;
 
@@ -10,6 +9,8 @@ public interface IStudentService {
     Student register(StudentDTO teacherDTO);
 
     List<Student> getAllStudent();
+
+    Student getStudentById(Long id);
 
     Student update(Long id, StudentDTO studentDTO);
 

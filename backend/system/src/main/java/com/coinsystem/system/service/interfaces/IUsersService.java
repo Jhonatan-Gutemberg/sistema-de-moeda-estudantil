@@ -5,7 +5,7 @@ import com.coinsystem.system.model.Users;
 
 import java.util.List;
 
-public interface IUsersSrevice {
+public interface IUsersService {
 
     Users registerUsers(UsersDTO usersDTO);
 

@@ -11,10 +11,10 @@ import com.coinsystem.system.exception.UserNotFoundException;
 import com.coinsystem.system.mappers.UsersMapper;
 import com.coinsystem.system.model.Users;
 import com.coinsystem.system.repository.UsersRepository;
-import com.coinsystem.system.service.interfaces.IUsersSrevice;
+import com.coinsystem.system.service.interfaces.IUsersService;
 
 @Service
-public class UsersService implements IUsersSrevice {
+public class UsersService implements IUsersService {
 
     @Autowired
     private UsersRepository usersRepository;
@@ -45,6 +45,7 @@ public class UsersService implements IUsersSrevice {
         Users existingUsers = optional.get();
         existingUsers.setName(usersDTO.name());
         existingUsers.setAddress(usersDTO.address());
+        existingUsers.setType(usersDTO.type());
         existingUsers.setEmail(usersDTO.email());
         existingUsers.setPhoneNumber(usersDTO.phoneNumber());
         existingUsers.setPassword(usersDTO.password());
