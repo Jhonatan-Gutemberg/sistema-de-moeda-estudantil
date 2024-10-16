@@ -1,9 +1,9 @@
 package com.coinsystem.system.model;
 
 import java.util.List;
-import java.util.ArrayList;
 
-import jakarta.persistence.CascadeType;
+import com.coinsystem.system.enums.UsersType;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.OneToMany;

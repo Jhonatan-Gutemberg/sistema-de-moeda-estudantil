@@ -1,5 +1,7 @@
 package com.coinsystem.system.model;
 
+import com.coinsystem.system.enums.UsersType;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;

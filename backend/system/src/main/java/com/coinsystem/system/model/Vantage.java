@@ -29,7 +29,7 @@ public class Vantage {
     @Column(name = "description", nullable = false, columnDefinition = "VARCHAR(255)")
     private String description;
     @Column(name = "value", nullable = false)
-    private double value;
+    private int value;
 
     @ManyToOne
     @JoinColumn(name = "partnercompany_id")

@@ -1,4 +1,4 @@
-package com.coinsystem.system.model;
+package com.coinsystem.system.enums;
 
 
 public enum UsersType {
