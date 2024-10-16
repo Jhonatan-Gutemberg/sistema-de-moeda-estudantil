@@ -7,11 +7,13 @@ import com.coinsystem.system.model.InstitutionEducation;
 import java.util.List;
 
 public interface IInstitutionEducationService {
-    InstitutionEducation register(InstitutionEducationDTO teacherDTO);
+    InstitutionEducation register(InstitutionEducationDTO institutionEducationDTO);
 
-    List<InstitutionEducation> getAllStudent();
+    List<InstitutionEducation> getAllInstitutionEducation();
 
-    InstitutionEducation update(Long id, InstitutionEducationDTO studentDTO);
+    InstitutionEducation getInstitutionEducationById(Long id);
+
+    InstitutionEducation update(Long id, InstitutionEducationDTO institutionEducationDTO);
 
     boolean delete(Long id);
 }

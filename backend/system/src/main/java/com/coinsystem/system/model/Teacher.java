@@ -8,6 +8,7 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.Getter;
@@ -29,6 +30,10 @@ public class Teacher extends Users {
     @JoinColumn(name = "id_wallet")
     private Wallet wallet;
 
+    @ManyToOne
+    @JoinColumn(name = "id_InstitutionEducation")
+    private InstitutionEducation institutionEducation;
+    
     @OneToMany
     private List<Student> students;
 

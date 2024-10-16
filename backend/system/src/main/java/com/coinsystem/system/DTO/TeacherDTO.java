@@ -11,6 +11,7 @@ public record TeacherDTO(
         String department,
         String password,
         String address,
-        WalletDTO wallet) {
+        WalletDTO wallet,
+        Long id_institutionEducation) {
 
 }

@@ -9,11 +9,13 @@ import org.springframework.stereotype.Service;
 import com.coinsystem.system.DTO.TeacherDTO;
 import com.coinsystem.system.exception.UserNotFoundException;
 import com.coinsystem.system.mappers.UsersMapper;
+import com.coinsystem.system.model.InstitutionEducation;
 import com.coinsystem.system.model.Student;
 import com.coinsystem.system.model.Teacher;
 import com.coinsystem.system.model.Wallet;
 import com.coinsystem.system.repository.StudentRepository;
 import com.coinsystem.system.repository.TeacherRepository;
+import com.coinsystem.system.repository.InstitutionEducationRepository;
 import com.coinsystem.system.repository.WalletRepository;
 import com.coinsystem.system.service.interfaces.ITeacherService;
 
@@ -29,6 +31,9 @@ public class TeacherService implements ITeacherService {
     @Autowired
     private WalletRepository walletRepository;
 
+    @Autowired
+    private InstitutionEducationRepository institutionEducationRepository;
+
     @Override
     public Teacher register(TeacherDTO teacherDTO) {
         int defaultCoins = 100;
@@ -37,12 +42,15 @@ public class TeacherService implements ITeacherService {
 
         wallet.setCoins(defaultCoins);
         wallet.setDescription(defaultDescription);
-
         walletRepository.save(wallet);
+
+        InstitutionEducation institutionEducation = institutionEducationRepository.findById(teacherDTO.id_institutionEducation())
+        .orElseThrow(() -> new UserNotFoundException("User with id  not found."));;
 
         Teacher teacher = UsersMapper.TeacherDtoToModel(teacherDTO);
 
         teacher.setWallet(wallet);
+        teacher.setInstitutionEducation(institutionEducation);
         
         teacherRepository.save(teacher);
         return teacher;
