@@ -40,6 +40,19 @@ public class StudentController {
         }
     }
 
+    @PostMapping("/registerWithTeacher")
+    public ResponseEntity<ApiResponse<Student>> registerWithTeacher(@RequestBody @Valid StudentDTO studentDTO) {
+        try {
+            Student student = studentService.registerWithTeacher(studentDTO);
+            ApiResponse<Student> response = new ApiResponse<>(true, "User registered successfully with teacher",
+                    student);
+            return ResponseEntity.status(HttpStatus.CREATED).body(response);
+        } catch (Exception e) {
+            ApiResponse<Student> errorResponse = new ApiResponse<>(false, e.getMessage(), null);
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
+        }
+    }
+
     @GetMapping("/all")
     public ResponseEntity<ApiResponse<List<Student>>> getAllStudent() {
         try {

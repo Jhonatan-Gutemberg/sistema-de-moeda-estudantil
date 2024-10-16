@@ -10,6 +10,7 @@ public record StudentDTO(
         String cpf,
         String rg,
         String password,
-        String address) {
+        String address,
+        Long id_teacher) {
 
 }

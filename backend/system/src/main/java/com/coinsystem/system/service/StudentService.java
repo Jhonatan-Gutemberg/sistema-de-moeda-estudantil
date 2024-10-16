@@ -10,6 +10,7 @@ import com.coinsystem.system.DTO.StudentDTO;
 import com.coinsystem.system.exception.UserNotFoundException;
 import com.coinsystem.system.mappers.UsersMapper;
 import com.coinsystem.system.model.Student;
+import com.coinsystem.system.model.Teacher;
 import com.coinsystem.system.repository.StudentRepository;
 import com.coinsystem.system.service.interfaces.IStudentService;
 
@@ -19,11 +20,24 @@ public class StudentService implements IStudentService {
     @Autowired
     private StudentRepository studentRepository;
 
+    @Autowired
+    private TeacherService teacherService;
+
     @Override
     public Student register(StudentDTO studentDTO) {
         Student student = UsersMapper.StudentDtoToModel(studentDTO);
         studentRepository.save(student);
         return student;
+    }
+
+    @Override
+    public Student registerWithTeacher(StudentDTO studentDTO) {
+        Student student = UsersMapper.StudentDtoToModel(studentDTO);
+
+        Teacher teacher = teacherService.getTeacherById(studentDTO.id_teacher());
+        student.setTeacher(teacher);
+
+        return studentRepository.save(student);
     }
 
     @Override

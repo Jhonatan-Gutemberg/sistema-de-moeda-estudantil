@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.coinsystem.system.DTO.TeacherDTO;
 import com.coinsystem.system.controller.ApiResponse.ApiResponse;
+import com.coinsystem.system.model.Student;
 import com.coinsystem.system.model.Teacher;
 import com.coinsystem.system.service.interfaces.ITeacherService;
 
@@ -65,6 +66,18 @@ public class TeacherController {
             }
         } catch (Exception e) {
             ApiResponse<Teacher> errorResponse = new ApiResponse<>(false, e.getMessage(), null);
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
+        }
+    }
+
+    @GetMapping("/{id}/students")
+    public ResponseEntity<ApiResponse<List<Student>>> getStudentsByTeacherId(@PathVariable Long id) {
+        try {
+            List<Student> students = teacherService.getStudentByTeacherId(id);
+            ApiResponse<List<Student>> response = new ApiResponse<>(true, "Students retrieved successfully", students);
+            return ResponseEntity.ok(response);
+        } catch (Exception e) {
+            ApiResponse<List<Student>> errorResponse = new ApiResponse<>(false, e.getMessage(), null);
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
         }
     }
