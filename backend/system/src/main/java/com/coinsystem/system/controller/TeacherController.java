@@ -82,6 +82,18 @@ public class TeacherController {
         }
     }
 
+    @GetMapping("/{id}/wallet")
+    public ResponseEntity<ApiResponse<Integer>> getWalletByTeacherId(@PathVariable Long id) {
+        try {
+            int coins = teacherService.getCoinsByTeacherId(id);
+            ApiResponse<Integer> response = new ApiResponse<>(true, "Coins retrieved successfully", coins);
+            return ResponseEntity.ok(response);
+        } catch (Exception e) {
+            ApiResponse<Integer> errorResponse = new ApiResponse<>(false, e.getMessage(), null);
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
+        }
+    }
+
     @PutMapping("/update/{id}")
     public ResponseEntity<ApiResponse<Teacher>> update(@PathVariable Long id,
             @RequestBody @Valid TeacherDTO teacherDTO) {

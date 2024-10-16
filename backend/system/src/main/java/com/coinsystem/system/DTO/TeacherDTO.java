@@ -10,6 +10,7 @@ public record TeacherDTO(
         double salary,
         String department,
         String password,
-        String address) {
+        String address,
+        WalletDTO wallet) {
 
 }

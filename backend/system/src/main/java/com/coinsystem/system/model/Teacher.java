@@ -6,7 +6,9 @@ import com.coinsystem.system.enums.UsersType;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -22,6 +24,10 @@ public class Teacher extends Users {
     private double salary;
    @Column(name = "department", nullable = false)
     private String department;
+
+    @OneToOne
+    @JoinColumn(name = "id_wallet")
+    private Wallet wallet;
 
     @OneToMany
     private List<Student> students;

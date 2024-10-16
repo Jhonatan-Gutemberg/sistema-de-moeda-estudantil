@@ -12,8 +12,10 @@ public interface ITeacherService {
     List<Teacher> getAllTeacher();
 
     Teacher getTeacherById(Long id);
-    
+
     List<Student> getStudentByTeacherId(Long idTeacher);
+
+    int getCoinsByTeacherId(Long idTeacher);
 
     Teacher update(Long id, TeacherDTO teacherDTO);
 
