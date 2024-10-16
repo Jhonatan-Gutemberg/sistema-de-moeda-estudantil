@@ -83,6 +83,9 @@
  ## Component Diagram
  <img src="documents\img\Component_diagram.png">
 
+ ## Entity Relation Diagram
+ <img src="documents\img\Entity_Relatioship_diagram.png">
+
 
 
 
