@@ -19,20 +19,25 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-@AllArgsConstructor
 public class Vantage {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(name = "name", nullable = false, unique = true, columnDefinition = "VARCHAR(255)")
+    @Column(name = "name", columnDefinition = "VARCHAR(255)")
     private String name;
-    @Column(name = "description", nullable = false, columnDefinition = "VARCHAR(255)")
+    @Column(name = "description", columnDefinition = "VARCHAR(255)")
     private String description;
-    @Column(name = "value", nullable = false)
-    private int value;
+    @Column(name = "value")
+    private Integer value;
 
     @ManyToOne
-    @JoinColumn(name = "partnercompany_id")
+    @JoinColumn(name = "id_PartnerCompany")
     private PartnerCompany partnerCompany;
+
+    public Vantage(String name, String description, Integer value) {
+        this.name = name;
+        this.description = description;
+        this.value = value;
+    }
 
 }
