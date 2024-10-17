@@ -1,5 +1,6 @@
 package com.coinsystem.system.model;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import com.coinsystem.system.enums.UsersType;
@@ -25,6 +26,8 @@ public class Teacher extends Users {
     private double salary;
    @Column(name = "department", nullable = false)
     private String department;
+
+    private LocalDateTime lastRewarded;
 
     @OneToOne
     @JoinColumn(name = "id_wallet")

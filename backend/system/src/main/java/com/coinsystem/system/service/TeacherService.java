@@ -1,5 +1,6 @@
 package com.coinsystem.system.service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -44,22 +45,24 @@ public class TeacherService implements ITeacherService {
         wallet.setDescription(defaultDescription);
         walletRepository.save(wallet);
 
-        InstitutionEducation institutionEducation = institutionEducationRepository.findById(teacherDTO.id_institutionEducation())
-        .orElseThrow(() -> new UserNotFoundException("User with id  not found."));;
+        InstitutionEducation institutionEducation = institutionEducationRepository
+                .findById(teacherDTO.id_institutionEducation())
+                .orElseThrow(() -> new UserNotFoundException("User with id  not found."));
+        ;
 
         Teacher teacher = UsersMapper.TeacherDtoToModel(teacherDTO);
 
         teacher.setWallet(wallet);
         teacher.setInstitutionEducation(institutionEducation);
-        
+        teacher.setLastRewarded(LocalDateTime.now());
+
         teacherRepository.save(teacher);
         return teacher;
     }
-    
 
     @Override
     public List<Teacher> getAllTeacher() {
-       return teacherRepository.findAll();
+        return teacherRepository.findAll();
     }
 
     @Override
@@ -71,17 +74,15 @@ public class TeacherService implements ITeacherService {
 
     @Override
     public List<Student> getStudentByTeacherId(Long idTeacher) {
-       return studentRepository.findByTeacherId(idTeacher);
+        return studentRepository.findByTeacherId(idTeacher);
     }
 
     public int getCoinsByTeacherId(Long idTeacher) {
         Teacher teacher = teacherRepository.findById(idTeacher)
-            .orElseThrow(() -> new UserNotFoundException("Teacher with id " + idTeacher + " not found."));
-        
+                .orElseThrow(() -> new UserNotFoundException("Teacher with id " + idTeacher + " not found."));
+
         return teacher.getWallet().getCoins();
     }
-    
-    
 
     @Override
     public Teacher update(Long id, TeacherDTO teacherDTO) {
@@ -103,7 +104,7 @@ public class TeacherService implements ITeacherService {
 
     @Override
     public boolean delete(Long id) {
-       Optional<Teacher> optional = teacherRepository.findById(id);
+        Optional<Teacher> optional = teacherRepository.findById(id);
         if (optional.isPresent()) {
             teacherRepository.delete(optional.get());
             return true;
@@ -111,5 +112,17 @@ public class TeacherService implements ITeacherService {
 
         throw new UnsupportedOperationException("Unimplemented method 'delete'");
     }
-    
+
+    public void rewardCoins(Long teacherId) {
+        Teacher teacher = teacherRepository.findById(teacherId)
+                .orElseThrow(() -> new UserNotFoundException("Teacher with id " + teacherId + " not found."));
+
+        int coinsToAdd = 100;
+        Wallet wallet = teacher.getWallet();
+        wallet.setCoins(wallet.getCoins() + coinsToAdd);
+        walletRepository.save(wallet);
+
+        System.out.println("Recompensa aplicada com sucesso. Saldo atualizado: " + wallet.getCoins());
+    }
+
 }
