@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 import com.coinsystem.system.model.Student;
 import com.coinsystem.system.model.Teacher;
 import com.coinsystem.system.model.Transaction;
-import com.coinsystem.system.model.Vantage;
 import com.coinsystem.system.model.Wallet;
 import com.coinsystem.system.repository.StudentRepository;
 import com.coinsystem.system.repository.TeacherRepository;

@@ -1,13 +1,17 @@
 package com.coinsystem.system.DTO;
 
-import java.time.LocalDate;
-
+import java.time.LocalDateTime;
 
 public record NotificationDTO(
-        String coupon,
-        LocalDate date_shipping,
-        LocalDate date_receipt,
-        Long id_sender, // teacher
-        Long id_partner_company) {
+                Long id,
+                String coupon,
+                LocalDateTime dateShipping,
+                LocalDateTime dateReceipt,
+                Long partnerCompanyId,
+                String partnerCompanyName,
+                Long studentId,
+                String studentName,
+                boolean studentConfirmed,
+                boolean partnerConfirmed) {
 
 }

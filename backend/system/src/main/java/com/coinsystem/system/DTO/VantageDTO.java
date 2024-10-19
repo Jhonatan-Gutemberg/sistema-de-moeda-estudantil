@@ -3,7 +3,7 @@ package com.coinsystem.system.DTO;
 public record VantageDTO(
         String name,
         String description,
-        Integer value,
+        int value,
         Long id_partnerCompany) {
 
 }

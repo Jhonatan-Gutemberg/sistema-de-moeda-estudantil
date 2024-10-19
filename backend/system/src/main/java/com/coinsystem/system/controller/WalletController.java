@@ -16,8 +16,6 @@ import com.coinsystem.system.DTO.TransferRequestDTO;
 import com.coinsystem.system.controller.ApiResponse.ApiResponse;
 import com.coinsystem.system.model.Transaction;
 import com.coinsystem.system.model.Wallet;
-import com.coinsystem.system.model.Wallet;
-import com.coinsystem.system.repository.TransactionRepository;
 import com.coinsystem.system.repository.WalletRepository;
 import com.coinsystem.system.service.interfaces.IWalletService;
 
@@ -29,9 +27,6 @@ public class WalletController {
     private IWalletService walletService;
     @Autowired
     private WalletRepository walletRepository;
-
-    @Autowired
-    private TransactionRepository transactionRepository;
 
     @PostMapping("/transfer")
     public ResponseEntity<ApiResponse<String>> transferCoins(@RequestBody TransferRequestDTO request) {

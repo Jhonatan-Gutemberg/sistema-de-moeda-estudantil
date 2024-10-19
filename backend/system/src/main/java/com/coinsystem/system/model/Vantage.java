@@ -27,13 +27,15 @@ public class Vantage {
     @Column(name = "description", columnDefinition = "VARCHAR(255)")
     private String description;
     @Column(name = "value")
-    private Integer value;
+    private int value;
+    @Column(name = "couponCode")
+    private String couponCode;
 
     @ManyToOne
     @JoinColumn(name = "id_PartnerCompany")
     private PartnerCompany partnerCompany;
 
-    public Vantage(String name, String description, Integer value) {
+    public Vantage(String name, String description, int value) {
         this.name = name;
         this.description = description;
         this.value = value;
