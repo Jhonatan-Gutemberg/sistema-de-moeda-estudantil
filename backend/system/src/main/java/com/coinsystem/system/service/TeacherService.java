@@ -125,4 +125,6 @@ public class TeacherService implements ITeacherService {
         System.out.println("Recompensa aplicada com sucesso. Saldo atualizado: " + wallet.getCoins());
     }
 
+    
+
 }

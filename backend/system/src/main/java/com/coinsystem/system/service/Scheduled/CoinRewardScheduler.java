@@ -17,7 +17,7 @@ public class CoinRewardScheduler {
 
     @Autowired
     private TeacherService teacherService;
-    @Scheduled(fixedRate = 15_552_000_000L) // 60000 -> 1 MINUTO
+    @Scheduled(fixedRate = 60000) // 60000 -> 1 MINUTO -> 6 meses = 15_552_000_000L
     public void scheduleCoinRewards() {
         List<Teacher> teachers = teacherRepository.findAll();
         
