@@ -18,6 +18,7 @@ import com.coinsystem.system.repository.ExchangeRepository;
 import com.coinsystem.system.repository.NotificationRepository;
 import com.coinsystem.system.repository.StudentRepository;
 import com.coinsystem.system.repository.VantageRepository;
+import com.coinsystem.system.service.Utilities.CouponCodeGenerator;
 import com.coinsystem.system.service.interfaces.IExchangeService;
 
 @Service
@@ -52,7 +53,7 @@ public class ExchangeService implements IExchangeService {
         Exchange exchange = new Exchange(student, vantage, LocalDateTime.now(), vantage.getValue());
         exchangeRepository.save(exchange);
 
-        String couponCode = generateCouponCode();
+        String couponCode = CouponCodeGenerator.generateCouponCode();
 
         Notification notification = new Notification(
                 couponCode,
@@ -61,10 +62,6 @@ public class ExchangeService implements IExchangeService {
         notificationRepository.save(notification);
 
         return ExchangeMapper.toDTO(exchange);
-    }
-
-    private String generateCouponCode() {
-        return UUID.randomUUID().toString();
     }
 
     @Override
@@ -90,7 +87,7 @@ public class ExchangeService implements IExchangeService {
                 .orElseThrow(() -> new RuntimeException("Notificação não encontrada."));
         boolean isPartnerConfirmed = notification.isPartnerConfirmed();
         boolean isStudentConfirmed = notification.isStudentConfirmed();
-        if(isPartnerConfirmed & isStudentConfirmed == true){
+        if (isPartnerConfirmed & isStudentConfirmed == true) {
             notification.setDateReceipt(LocalDateTime.now());
         }
         notificationRepository.save(notification);
