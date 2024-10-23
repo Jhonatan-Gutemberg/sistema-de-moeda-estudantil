@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -20,7 +21,6 @@ public class TransactionController {
     @Autowired
     private TransactionRepository transactionRepository;
 
-
     @GetMapping("/all")
     public ResponseEntity<ApiResponse<List<Transaction>>> getAllTransactions() {
         try {
@@ -35,5 +35,23 @@ public class TransactionController {
         }
     }
 
+    @GetMapping("/student/{studentId}")
+    public ResponseEntity<ApiResponse<List<Transaction>>> getTransactionsByStudent(
+            @PathVariable Long studentId) {
+        try {
+            List<Transaction> transactions = transactionRepository.findByStudentId(studentId);
+            if (transactions.isEmpty()) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                        .body(new ApiResponse<>(false, "Nenhuma transação encontrada para o aluno", null));
+            }
+
+            ApiResponse<List<Transaction>> response = new ApiResponse<>(true,
+                    "Transações obtidas com sucesso", transactions);
+            return ResponseEntity.status(HttpStatus.OK).body(response);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(new ApiResponse<>(false, "Erro ao obter transações", null));
+        }
+    }
 
 }
