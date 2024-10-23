@@ -38,11 +38,11 @@ public class WalletController {
                     request.description());
 
             if (success) {
-                ApiResponse<String> response = new ApiResponse<>(true, "Transferência realizada com sucesso!", null);
+                ApiResponse<String> response = new ApiResponse<>(true, "Transfer completed successfully!", null);
                 return ResponseEntity.status(HttpStatus.OK).body(response);
             } else {
                 ApiResponse<String> errorResponse = new ApiResponse<>(false,
-                        "Falha na transferência. Saldo insuficiente.", null);
+                        "Transfer failed. Insufficient balance.", null);
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
             }
 
@@ -52,7 +52,7 @@ public class WalletController {
         }
     }
 
-     @GetMapping("/all")
+    @GetMapping("/all")
     public ResponseEntity<ApiResponse<List<Wallet>>> getAllWallet() {
         try {
             List<Wallet> wallet = walletService.getAllWallet();
@@ -68,17 +68,17 @@ public class WalletController {
     public ResponseEntity<ApiResponse<List<Transaction>>> getTransactionHistory(@PathVariable Long walletId) {
         try {
             Wallet wallet = walletRepository.findById(walletId)
-                    .orElseThrow(() -> new IllegalArgumentException("Carteira não encontrada"));
+                    .orElseThrow(() -> new IllegalArgumentException("Wallet not found."));
             List<Transaction> transactions = wallet.getTransactions();
             ApiResponse<List<Transaction>> response = new ApiResponse<>(true,
-                    "Histórico de transações obtido com sucesso", transactions);
+                    "Transaction history retrieved successfully.", transactions);
             return ResponseEntity.status(HttpStatus.OK).body(response);
         } catch (IllegalArgumentException e) {
             ApiResponse<List<Transaction>> errorResponse = new ApiResponse<>(false, e.getMessage(), null);
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
         } catch (Exception e) {
             ApiResponse<List<Transaction>> errorResponse = new ApiResponse<>(false,
-                    "Erro ao buscar histórico de transações", null);
+                    "Error retrieving transaction history.", null);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorResponse);
         }
     }

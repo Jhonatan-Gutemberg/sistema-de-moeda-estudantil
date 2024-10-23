@@ -122,7 +122,7 @@ public class TeacherService implements ITeacherService {
         wallet.setCoins(wallet.getCoins() + coinsToAdd);
         walletRepository.save(wallet);
 
-        System.out.println("Recompensa aplicada com sucesso. Saldo atualizado: " + wallet.getCoins());
+        System.out.println("Reward successfully applied. Balance updated: " + wallet.getCoins());
     }
 
     

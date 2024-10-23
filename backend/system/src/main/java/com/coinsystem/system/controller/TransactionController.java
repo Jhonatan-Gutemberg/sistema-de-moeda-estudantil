@@ -26,11 +26,11 @@ public class TransactionController {
         try {
             List<Transaction> transactions = transactionRepository.findAll();
             ApiResponse<List<Transaction>> response = new ApiResponse<>(true,
-                    "Transações obtidas com sucesso", transactions);
+                    "Transactions retrieved successfully.", transactions);
             return ResponseEntity.status(HttpStatus.OK).body(response);
         } catch (Exception e) {
             ApiResponse<List<Transaction>> errorResponse = new ApiResponse<>(false,
-                    "Erro ao obter transações", null);
+                    "Error retrieving transactions.", null);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorResponse);
         }
     }
@@ -42,15 +42,15 @@ public class TransactionController {
             List<Transaction> transactions = transactionRepository.findByStudentId(studentId);
             if (transactions.isEmpty()) {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                        .body(new ApiResponse<>(false, "Nenhuma transação encontrada para o aluno", null));
+                        .body(new ApiResponse<>(false, "No transactions found for the student.", null));
             }
 
             ApiResponse<List<Transaction>> response = new ApiResponse<>(true,
-                    "Transações obtidas com sucesso", transactions);
+                    "Transactions retrieved successfully.", transactions);
             return ResponseEntity.status(HttpStatus.OK).body(response);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body(new ApiResponse<>(false, "Erro ao obter transações", null));
+                    .body(new ApiResponse<>(false, "Error retrieving transactions", null));
         }
     }
 

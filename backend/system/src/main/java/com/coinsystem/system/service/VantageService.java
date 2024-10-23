@@ -29,7 +29,7 @@ public class VantageService implements IVantageService {
 
         PartnerCompany partnerCompany = partnerCompanyRepository.findById(vantageDTO.id_partnerCompany())
                 .orElseThrow(() -> new UserNotFoundException("User with id  not found."));
-        ;
+        
 
         Vantage vantage = VantageMapper.vantageDtoToModel(vantageDTO);
 
@@ -69,7 +69,8 @@ public class VantageService implements IVantageService {
             existingVantage.setName(vantageDTO.name());
             existingVantage.setDescription(vantageDTO.description());
             existingVantage.setValue(vantageDTO.value());
-            ;
+            existingVantage.setQuantity(vantageDTO.quantity());
+            
 
             vantageRepository.save(existingVantage);
             return existingVantage;

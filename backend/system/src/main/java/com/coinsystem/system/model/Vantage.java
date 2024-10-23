@@ -28,6 +28,8 @@ public class Vantage {
     private String description;
     @Column(name = "value")
     private int value;
+    @Column(name = "quantity")
+    private int quantity;
     @Column(name = "couponCode")
     private String couponCode;
 
@@ -35,10 +37,11 @@ public class Vantage {
     @JoinColumn(name = "id_PartnerCompany")
     private PartnerCompany partnerCompany;
 
-    public Vantage(String name, String description, int value) {
+    public Vantage(String name, String description, int value,int quantity) {
         this.name = name;
         this.description = description;
         this.value = value;
+        this.quantity = quantity;
     }
 
 }

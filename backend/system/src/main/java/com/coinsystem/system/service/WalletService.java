@@ -32,10 +32,10 @@ public class WalletService implements IWalletService {
 
     public boolean transferCoins(Long teacherId, Long studentId, int amount, String description) {
         Teacher teacher = teacherRepository.findById(teacherId)
-                .orElseThrow(() -> new IllegalArgumentException("Teacher não encontrado"));
+                .orElseThrow(() -> new IllegalArgumentException("Teacher not found."));
         
         Student student = studentRepository.findById(studentId)
-                .orElseThrow(() -> new IllegalArgumentException("Aluno não encontrado"));
+                .orElseThrow(() -> new IllegalArgumentException("Aluno not found."));
     
         Wallet sourceWallet = teacher.getWallet();
         Wallet destinationWallet = student.getWallet();

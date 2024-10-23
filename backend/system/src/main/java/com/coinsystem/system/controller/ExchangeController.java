@@ -24,14 +24,14 @@ public class ExchangeController {
         try {
             ExchangeDTO exchangeDTO = exchangeService.exchangeVantage(studentId, vantageId);
             ApiResponse<ExchangeDTO> response = new ApiResponse<>(true,
-                    "Troca realizada com sucesso", exchangeDTO);
+                    "Exchange completed successfully", exchangeDTO);
             return ResponseEntity.status(HttpStatus.CREATED).body(response);
         } catch (RuntimeException e) {
             ApiResponse<ExchangeDTO> errorResponse = new ApiResponse<>(false, e.getMessage(), null);
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
         } catch (Exception e) {
             ApiResponse<ExchangeDTO> errorResponse = new ApiResponse<>(false,
-                    "Erro ao realizar a troca", null);
+                    "Error while processing the exchange", null);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorResponse);
         }
     }
@@ -41,14 +41,14 @@ public class ExchangeController {
         try {
             List<ExchangeDTO> exchanges = exchangeService.getExchangeHistory(studentId);
             ApiResponse<List<ExchangeDTO>> response = new ApiResponse<>(true,
-                    "Histórico de trocas obtido com sucesso", exchanges);
+                    "Exchange history retrieved successfully.", exchanges);
             return ResponseEntity.status(HttpStatus.OK).body(response);
         } catch (RuntimeException e) {
             ApiResponse<List<ExchangeDTO>> errorResponse = new ApiResponse<>(false, e.getMessage(), null);
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
         } catch (Exception e) {
             ApiResponse<List<ExchangeDTO>> errorResponse = new ApiResponse<>(false,
-                    "Erro ao buscar histórico de trocas", null);
+                    "Error retrieving exchange history.", null);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorResponse);
         }
     }
