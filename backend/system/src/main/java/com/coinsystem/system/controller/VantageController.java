@@ -44,10 +44,8 @@ public class VantageController {
             @RequestParam("id_partnerCompany") Long idPartnerCompany,
             @RequestParam("imageFile") MultipartFile imageFile) throws IOException {
         try {
-            // Crie o VantageDTO manualmente
+          
             VantageDTO vantageDTO = new VantageDTO(name, description, value, quantity, idPartnerCompany);
-
-            // Chame o serviço para registrar
             Vantage vantage = vantageService.register(vantageDTO, imageFile);
             ApiResponse<Vantage> response = new ApiResponse<>(true, "User registered successfully", vantage);
             return ResponseEntity.status(HttpStatus.CREATED).body(response);
@@ -72,12 +70,12 @@ public class VantageController {
     @GetMapping("/imagem/{id}")
     public ResponseEntity<byte[]> getImage(@PathVariable Long id) {
         try {
-            // Busca o Vantage pelo ID
-            Vantage vantage = vantageService.getVantageById(id); // Método que você precisa implementar
+           
+            Vantage vantage = vantageService.getVantageById(id); 
             if (vantage != null && vantage.getImage() != null) {
-                byte[] imagemBytes = vantage.getImage(); // Obtem a imagem em bytes
+                byte[] imagemBytes = vantage.getImage(); 
                 HttpHeaders headers = new HttpHeaders();
-                headers.setContentType(MediaType.IMAGE_PNG); // Altere para o tipo correto se necessário
+                headers.setContentType(MediaType.IMAGE_PNG); 
                 return new ResponseEntity<>(imagemBytes, headers, HttpStatus.OK);
             } else {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
