@@ -37,7 +37,7 @@ public class TeacherService implements ITeacherService {
 
     @Override
     public Teacher register(TeacherDTO teacherDTO) {
-        int defaultCoins = 100;
+        int defaultCoins = 1000;
         String defaultDescription = "Initial wallet for teacher " + teacherDTO.name();
         Wallet wallet = new Wallet();
 
@@ -117,7 +117,7 @@ public class TeacherService implements ITeacherService {
         Teacher teacher = teacherRepository.findById(teacherId)
                 .orElseThrow(() -> new UserNotFoundException("Teacher with id " + teacherId + " not found."));
 
-        int coinsToAdd = 100;
+        int coinsToAdd = 1000;
         Wallet wallet = teacher.getWallet();
         wallet.setCoins(wallet.getCoins() + coinsToAdd);
         walletRepository.save(wallet);
