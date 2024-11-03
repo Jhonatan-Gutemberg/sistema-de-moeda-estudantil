@@ -1,10 +1,12 @@
 package com.coinsystem.system.service;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.coinsystem.system.DTO.VantageDTO;
 import com.coinsystem.system.exception.UserNotFoundException;
@@ -25,15 +27,15 @@ public class VantageService implements IVantageService {
     private PartnerCompanyRepository partnerCompanyRepository;
 
     @Override
-    public Vantage register(VantageDTO vantageDTO) {
+    public Vantage register(VantageDTO vantageDTO, MultipartFile file) throws IOException {
 
         PartnerCompany partnerCompany = partnerCompanyRepository.findById(vantageDTO.id_partnerCompany())
                 .orElseThrow(() -> new UserNotFoundException("User with id  not found."));
-        
 
         Vantage vantage = VantageMapper.vantageDtoToModel(vantageDTO);
 
         vantage.setPartnerCompany(partnerCompany);
+        vantage.setImage(file.getBytes());
 
         vantageRepository.save(vantage);
         return vantage;
@@ -70,7 +72,6 @@ public class VantageService implements IVantageService {
             existingVantage.setDescription(vantageDTO.description());
             existingVantage.setValue(vantageDTO.value());
             existingVantage.setQuantity(vantageDTO.quantity());
-            
 
             vantageRepository.save(existingVantage);
             return existingVantage;

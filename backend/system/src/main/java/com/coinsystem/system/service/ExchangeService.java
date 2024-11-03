@@ -56,6 +56,7 @@ public class ExchangeService implements IExchangeService {
         String couponCode = generateCouponCode();
 
         createNotification(student, vantage, couponCode);
+        sendEmailNotification(student, vantage, couponCode);
 
         return mapToExchangeDTO(student, vantage);
     }

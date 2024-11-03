@@ -32,6 +32,9 @@ public class Vantage {
     private int quantity;
     @Column(name = "couponCode")
     private String couponCode;
+    
+    @Column(name = "image")
+    private byte[] image;
 
     @ManyToOne
     @JoinColumn(name = "id_PartnerCompany")
