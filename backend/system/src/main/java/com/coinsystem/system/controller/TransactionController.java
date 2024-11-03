@@ -12,6 +12,8 @@ import com.coinsystem.system.controller.ApiResponse.ApiResponse;
 import com.coinsystem.system.model.Transaction;
 import com.coinsystem.system.repository.TransactionRepository;
 
+import io.swagger.v3.oas.annotations.Operation;
+
 import java.util.List;
 
 @RestController
@@ -21,6 +23,7 @@ public class TransactionController {
     @Autowired
     private TransactionRepository transactionRepository;
 
+    @Operation(summary = "Presents currency transaction statement using student ID.", description = "Return transaction ID, student ID,amount,description, timestamp and ID teacher.")
     @GetMapping("/all")
     public ResponseEntity<ApiResponse<List<Transaction>>> getAllTransactions() {
         try {
@@ -35,6 +38,7 @@ public class TransactionController {
         }
     }
 
+    @Operation(summary = "Presents statement of coinstransaction between teacher and student", description = "Return transaction ID, student ID,amount,description, timestamp and ID teacher.")
     @GetMapping("/student/{studentId}")
     public ResponseEntity<ApiResponse<List<Transaction>>> getTransactionsByStudent(
             @PathVariable Long studentId) {
