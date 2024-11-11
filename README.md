@@ -86,6 +86,9 @@
  ## Entity Relation Diagram
  <img src="documents\img\Entity_Relatioship_diagram.png">
 
+ ## Sequence diagram - Vantage registration
+ <img src="documents\img\Sequence_diagram.png">
+
 
 
 
