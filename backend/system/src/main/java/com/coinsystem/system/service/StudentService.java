@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.coinsystem.system.DTO.StudentDTO;
@@ -28,6 +29,9 @@ public class StudentService implements IStudentService {
     @Autowired
     private WalletRepository walletRepository;
 
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
     @Override
     public Student register(StudentDTO studentDTO) {
         int defaultCoins = 0;
@@ -40,6 +44,9 @@ public class StudentService implements IStudentService {
         walletRepository.save(wallet);
 
         Student student = UsersMapper.StudentDtoToModel(studentDTO);
+        Teacher teacher = teacherService.getTeacherById(studentDTO.id_teacher());
+        student.setTeacher(teacher);
+        student.setPassword(passwordEncoder.encode(studentDTO.password()));
         student.setWallet(wallet);
         studentRepository.save(student);
         return student;

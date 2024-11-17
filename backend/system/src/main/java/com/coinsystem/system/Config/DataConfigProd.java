@@ -54,4 +54,11 @@ public class DataConfigProd {
 
         return mailSender;
     }
+
+    @Bean(name = "securityProperties")
+    public Properties securityProperties() {
+        Properties properties = new Properties();
+        properties.put("api.security.token.secret", "login-secret");
+        return properties;
+    }
 }

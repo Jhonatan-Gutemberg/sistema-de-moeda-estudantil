@@ -16,28 +16,36 @@ import java.util.List;
 
 import com.coinsystem.system.DTO.InstitutionEducationDTO;
 import com.coinsystem.system.controller.ApiResponse.ApiResponse;
+import com.coinsystem.system.controller.ApiResponse.ApiResponseLogin;
+import com.coinsystem.system.infra.ITokenService;
 import com.coinsystem.system.model.InstitutionEducation;
 import com.coinsystem.system.service.interfaces.IInstitutionEducationService;
 
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequestMapping("/institutionEducational")
+@RequiredArgsConstructor
 public class InstitutionEducationalController {
 
     @Autowired
     private IInstitutionEducationService institutionEducationService;
+    private final ITokenService tokenService;
 
     @PostMapping("/register")
-    public ResponseEntity<ApiResponse<InstitutionEducation>> register(
+    public ResponseEntity<ApiResponseLogin<InstitutionEducation>> register(
             @RequestBody @Valid InstitutionEducationDTO institutionEducationDTO) {
         try {
             InstitutionEducation institutionEducation = institutionEducationService.register(institutionEducationDTO);
-            ApiResponse<InstitutionEducation> response = new ApiResponse<InstitutionEducation>(true, "User registered succesfully",
-                    institutionEducation);
+            String token = this.tokenService.generateToken(institutionEducation);
+            ApiResponseLogin<InstitutionEducation> response = new ApiResponseLogin<InstitutionEducation>(true,
+                    "User registered succesfully",
+                    institutionEducation, token);
             return ResponseEntity.status(HttpStatus.CREATED).body(response);
         } catch (Exception e) {
-            ApiResponse<InstitutionEducation> errorResponse = new ApiResponse<InstitutionEducation>(false, e.getMessage(), null);
+            ApiResponseLogin<InstitutionEducation> errorResponse = new ApiResponseLogin<InstitutionEducation>(false,
+                    e.getMessage(), null, null);
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
         }
     }
@@ -60,11 +68,13 @@ public class InstitutionEducationalController {
         try {
             InstitutionEducation institutionEducation = institutionEducationService.getInstitutionEducationById(id);
             if (institutionEducation != null) {
-                ApiResponse<InstitutionEducation> response = new ApiResponse<>(true, "InstitutionEducation found successfully",
+                ApiResponse<InstitutionEducation> response = new ApiResponse<>(true,
+                        "InstitutionEducation found successfully",
                         institutionEducation);
                 return ResponseEntity.ok(response);
             } else {
-                ApiResponse<InstitutionEducation> response = new ApiResponse<>(false, "InstitutionEducation not found", null);
+                ApiResponse<InstitutionEducation> response = new ApiResponse<>(false, "InstitutionEducation not found",
+                        null);
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
             }
         } catch (Exception e) {
@@ -77,13 +87,16 @@ public class InstitutionEducationalController {
     public ResponseEntity<ApiResponse<InstitutionEducation>> update(@PathVariable Long id,
             @RequestBody @Valid InstitutionEducationDTO InstitutionEducationDTO) {
         try {
-            InstitutionEducation updatedInstitutionEducation = institutionEducationService.update(id, InstitutionEducationDTO);
+            InstitutionEducation updatedInstitutionEducation = institutionEducationService.update(id,
+                    InstitutionEducationDTO);
             if (updatedInstitutionEducation != null) {
-                ApiResponse<InstitutionEducation> response = new ApiResponse<>(true, "InstitutionEducation updated successfully",
+                ApiResponse<InstitutionEducation> response = new ApiResponse<>(true,
+                        "InstitutionEducation updated successfully",
                         updatedInstitutionEducation);
                 return ResponseEntity.ok(response);
             } else {
-                ApiResponse<InstitutionEducation> response = new ApiResponse<>(false, "InstitutionEducation not found", null);
+                ApiResponse<InstitutionEducation> response = new ApiResponse<>(false, "InstitutionEducation not found",
+                        null);
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
             }
         } catch (Exception e) {
@@ -108,5 +121,5 @@ public class InstitutionEducationalController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
         }
     }
-    
+
 }

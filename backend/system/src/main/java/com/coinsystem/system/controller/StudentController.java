@@ -16,26 +16,33 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.coinsystem.system.DTO.StudentDTO;
 import com.coinsystem.system.controller.ApiResponse.ApiResponse;
+import com.coinsystem.system.controller.ApiResponse.ApiResponseLogin;
+import com.coinsystem.system.infra.ITokenService;
 import com.coinsystem.system.model.Student;
 import com.coinsystem.system.service.interfaces.IStudentService;
 
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequestMapping("/student")
+@RequiredArgsConstructor
 public class StudentController {
 
     @Autowired
     private IStudentService studentService;
+    private final ITokenService tokenService;
 
     @PostMapping("/register")
-    public ResponseEntity<ApiResponse<Student>> register(@RequestBody @Valid StudentDTO studentDTO) {
+    public ResponseEntity<ApiResponseLogin<Student>> register(@RequestBody @Valid StudentDTO studentDTO) {
         try {
             Student student = studentService.register(studentDTO);
-            ApiResponse<Student> response = new ApiResponse<Student>(true, "User registered succesfully", student);
+            String token = this.tokenService.generateToken(student);
+            ApiResponseLogin<Student> response = new ApiResponseLogin<Student>(true, "User registered succesfully",
+                    student, token);
             return ResponseEntity.status(HttpStatus.CREATED).body(response);
         } catch (Exception e) {
-            ApiResponse<Student> errorResponse = new ApiResponse<Student>(false, e.getMessage(), null);
+            ApiResponseLogin<Student> errorResponse = new ApiResponseLogin<Student>(false, e.getMessage(), null, null);
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
         }
     }

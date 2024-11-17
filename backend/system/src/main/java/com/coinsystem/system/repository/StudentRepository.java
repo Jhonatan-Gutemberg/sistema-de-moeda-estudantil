@@ -11,4 +11,6 @@ import com.coinsystem.system.model.Student;
 public interface StudentRepository extends JpaRepository<Student, Long> {
     List<Student> findByTeacherId(Long idTeacher);
 
+    Student findByEmail(String email);
+
 }

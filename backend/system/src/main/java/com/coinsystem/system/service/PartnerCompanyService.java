@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.coinsystem.system.DTO.PartnerCompanyDTO;
 import com.coinsystem.system.exception.UserNotFoundException;
@@ -19,9 +20,13 @@ public class PartnerCompanyService implements IPartnerCompanyService {
     @Autowired
     private PartnerCompanyRepository partnerCompanyRepository;
 
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
     @Override
     public PartnerCompany register(PartnerCompanyDTO partnerCompanyDTO) {
         PartnerCompany partnerCompany = UsersMapper.PartnerCompanyDtoToModel(partnerCompanyDTO);
+        partnerCompany.setPassword(passwordEncoder.encode(partnerCompanyDTO.password()));
         partnerCompanyRepository.save(partnerCompany);
         return partnerCompany;
     }

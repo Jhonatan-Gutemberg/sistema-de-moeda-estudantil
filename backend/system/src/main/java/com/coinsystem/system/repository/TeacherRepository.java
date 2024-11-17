@@ -7,5 +7,7 @@ import com.coinsystem.system.model.Teacher;
 
 @Repository
 public interface TeacherRepository extends JpaRepository<Teacher, Long> {
+
+    Teacher findByEmail(String email);
     
 }

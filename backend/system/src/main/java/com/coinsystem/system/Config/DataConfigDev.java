@@ -16,7 +16,9 @@ import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.JpaTransactionManager;
 
+
 import org.springframework.transaction.PlatformTransactionManager;
+
 
 @Configuration
 @Profile("dev")
@@ -29,7 +31,7 @@ public class DataConfigDev {
         data_Source.setUrl("jdbc:postgresql://localhost:5432/studentcoinsystemdev");
         data_Source.setUsername("postgres");
         data_Source.setPassword("2002");
-        return data_Source; 
+        return data_Source;
     }
 
     @Bean
@@ -43,11 +45,12 @@ public class DataConfigDev {
     }
 
     @Bean
-    public LocalContainerEntityManagerFactoryBean entityManagerFactory(DataSource dataSource, JpaVendorAdapter jpaVendorAdapter) {
+    public LocalContainerEntityManagerFactoryBean entityManagerFactory(DataSource dataSource,
+            JpaVendorAdapter jpaVendorAdapter) {
         LocalContainerEntityManagerFactoryBean emf = new LocalContainerEntityManagerFactoryBean();
         emf.setDataSource(dataSource);
         emf.setJpaVendorAdapter(jpaVendorAdapter);
-        emf.setPackagesToScan("com.coinsystem.system.model"); 
+        emf.setPackagesToScan("com.coinsystem.system.model");
 
         Properties jpaProperties = new Properties();
         jpaProperties.put("hibernate.hbm2ddl.auto", "create");
@@ -69,7 +72,7 @@ public class DataConfigDev {
         mailSender.setHost("smtp.gmail.com");
         mailSender.setPort(587);
         mailSender.setUsername("gutjhonfer@gmail.com");
-        mailSender.setPassword("xxxxxxx");//COLOQUE SUA SENHA
+        mailSender.setPassword("xxxxxxx");// COLOQUE SUA SENHA
 
         Properties props = mailSender.getJavaMailProperties();
         props.put("mail.transport.protocol", "smtp");
@@ -79,6 +82,11 @@ public class DataConfigDev {
 
         return mailSender;
     }
+
+    @Bean(name = "securityProperties")
+    public Properties securityProperties() {
+        Properties properties = new Properties();
+        properties.put("api.security.token.secret", "login-secret");
+        return properties;
+    }
 }
-
-

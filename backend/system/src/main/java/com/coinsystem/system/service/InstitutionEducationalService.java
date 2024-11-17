@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.coinsystem.system.DTO.InstitutionEducationDTO;
@@ -13,16 +14,19 @@ import com.coinsystem.system.model.InstitutionEducation;
 import com.coinsystem.system.repository.InstitutionEducationRepository;
 import com.coinsystem.system.service.interfaces.IInstitutionEducationService;
 
-
 @Service
 public class InstitutionEducationalService implements IInstitutionEducationService {
 
     @Autowired
     private InstitutionEducationRepository institutionEducationRepository;
 
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
     @Override
     public InstitutionEducation register(InstitutionEducationDTO institutionEducationDTO) {
         InstitutionEducation institutionEducation = UsersMapper.InstitutionEducationDtoToModel(institutionEducationDTO);
+        institutionEducation.setPassword(passwordEncoder.encode(institutionEducationDTO.password()));
         institutionEducationRepository.save(institutionEducation);
         return institutionEducation;
     }

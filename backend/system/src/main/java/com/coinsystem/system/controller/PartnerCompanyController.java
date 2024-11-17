@@ -16,28 +16,34 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.coinsystem.system.DTO.PartnerCompanyDTO;
 import com.coinsystem.system.controller.ApiResponse.ApiResponse;
+import com.coinsystem.system.controller.ApiResponse.ApiResponseLogin;
+import com.coinsystem.system.infra.ITokenService;
 import com.coinsystem.system.model.PartnerCompany;
 import com.coinsystem.system.service.interfaces.IPartnerCompanyService;
 
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequestMapping("/partnercompany")
+@RequiredArgsConstructor
 public class PartnerCompanyController {
 
     @Autowired
     private IPartnerCompanyService partnerCompanyService;
+    private final ITokenService tokenService;
 
     @PostMapping("/register")
-    public ResponseEntity<ApiResponse<PartnerCompany>> register(
+    public ResponseEntity<ApiResponseLogin<PartnerCompany>> register(
             @RequestBody @Valid PartnerCompanyDTO partnerCompanyDTO) {
         try {
             PartnerCompany partnerCompany = partnerCompanyService.register(partnerCompanyDTO);
-            ApiResponse<PartnerCompany> response = new ApiResponse<PartnerCompany>(true, "User registered succesfully",
-                    partnerCompany);
+            String token = this.tokenService.generateToken(partnerCompany);
+            ApiResponseLogin<PartnerCompany> response = new ApiResponseLogin<PartnerCompany>(true, "User registered succesfully",
+                    partnerCompany,token);
             return ResponseEntity.status(HttpStatus.CREATED).body(response);
         } catch (Exception e) {
-            ApiResponse<PartnerCompany> errorResponse = new ApiResponse<PartnerCompany>(false, e.getMessage(), null);
+            ApiResponseLogin<PartnerCompany> errorResponse = new ApiResponseLogin<PartnerCompany>(false, e.getMessage(), null,null);
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
         }
     }

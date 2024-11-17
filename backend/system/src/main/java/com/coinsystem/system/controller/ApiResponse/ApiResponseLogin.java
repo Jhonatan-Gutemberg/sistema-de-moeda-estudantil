@@ -1,15 +1,17 @@
 package com.coinsystem.system.controller.ApiResponse;
 
-public class ApiResponse<T> {
+public class ApiResponseLogin<T> {
 
     private T data;
     private boolean success;
     private String message;
+    private String token;
 
-    public ApiResponse(boolean success, String message, T data) {
+    public ApiResponseLogin(boolean success, String message, T data, String token) {
         this.success = success;
         this.message = message;
         this.data = data;
+        this.token = token;
     }
 
     public boolean isSuccess() {
@@ -36,4 +38,12 @@ public class ApiResponse<T> {
         this.data = data;
     }
 
+    public String getToken(){
+        return token;
+    }
+
+    public void setToken(String token){
+        this.token = token;
+    }
 }
+

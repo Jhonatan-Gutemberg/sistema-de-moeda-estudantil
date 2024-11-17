@@ -16,27 +16,33 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.coinsystem.system.DTO.TeacherDTO;
 import com.coinsystem.system.controller.ApiResponse.ApiResponse;
+import com.coinsystem.system.controller.ApiResponse.ApiResponseLogin;
+import com.coinsystem.system.infra.ITokenService;
 import com.coinsystem.system.model.Student;
 import com.coinsystem.system.model.Teacher;
 import com.coinsystem.system.service.interfaces.ITeacherService;
 
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequestMapping("/teacher")
+@RequiredArgsConstructor
 public class TeacherController {
 
     @Autowired
     private ITeacherService teacherService;
+    private final ITokenService tokenService;
 
     @PostMapping("/register")
-    public ResponseEntity<ApiResponse<Teacher>> register(@RequestBody @Valid TeacherDTO TeacherDTO) {
+    public ResponseEntity<ApiResponseLogin<Teacher>> register(@RequestBody @Valid TeacherDTO TeacherDTO) {
         try {
             Teacher teacher = teacherService.register(TeacherDTO);
-            ApiResponse<Teacher> response = new ApiResponse<Teacher>(true, "User registered succesfully", teacher);
+            String token = this.tokenService.generateToken(teacher);
+            ApiResponseLogin<Teacher> response = new ApiResponseLogin<Teacher>(true, "User registered succesfully", teacher,token);
             return ResponseEntity.status(HttpStatus.CREATED).body(response);
         } catch (Exception e) {
-            ApiResponse<Teacher> errorResponse = new ApiResponse<Teacher>(false, e.getMessage(), null);
+            ApiResponseLogin<Teacher> errorResponse = new ApiResponseLogin<Teacher>(false, e.getMessage(), null,null);
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
         }
     }
