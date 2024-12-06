@@ -12,12 +12,15 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import com.coinsystem.system.DTO.InstitutionEducationResponseDTO;
 import com.coinsystem.system.DTO.InstitutionEducationDTO;
 import com.coinsystem.system.controller.ApiResponse.ApiResponse;
 import com.coinsystem.system.controller.ApiResponse.ApiResponseLogin;
 import com.coinsystem.system.infra.ITokenService;
+import com.coinsystem.system.mappers.InstitutionEducationMapper;
 import com.coinsystem.system.model.InstitutionEducation;
 import com.coinsystem.system.service.interfaces.IInstitutionEducationService;
 
@@ -34,73 +37,83 @@ public class InstitutionEducationalController {
     private final ITokenService tokenService;
 
     @PostMapping("/register")
-    public ResponseEntity<ApiResponseLogin<InstitutionEducation>> register(
+    public ResponseEntity<ApiResponseLogin<InstitutionEducationResponseDTO>> register(
             @RequestBody @Valid InstitutionEducationDTO institutionEducationDTO) {
         try {
             InstitutionEducation institutionEducation = institutionEducationService.register(institutionEducationDTO);
+            InstitutionEducationResponseDTO institutionEducationResponseDTO = InstitutionEducationMapper.institutionEducationToInstitutionEducationResponseDTO(institutionEducation);
             String token = this.tokenService.generateToken(institutionEducation);
-            ApiResponseLogin<InstitutionEducation> response = new ApiResponseLogin<InstitutionEducation>(true,
+            ApiResponseLogin<InstitutionEducationResponseDTO> response = new ApiResponseLogin<InstitutionEducationResponseDTO>(true,
                     "User registered succesfully",
-                    institutionEducation, token);
+                    institutionEducationResponseDTO, token);
             return ResponseEntity.status(HttpStatus.CREATED).body(response);
         } catch (Exception e) {
-            ApiResponseLogin<InstitutionEducation> errorResponse = new ApiResponseLogin<InstitutionEducation>(false,
+            ApiResponseLogin<InstitutionEducationResponseDTO> errorResponse = new ApiResponseLogin<InstitutionEducationResponseDTO>(false,
                     e.getMessage(), null, null);
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
         }
     }
 
     @GetMapping("/all")
-    public ResponseEntity<ApiResponse<List<InstitutionEducation>>> getAllInstitutionEducation() {
+    public ResponseEntity<ApiResponse<List<InstitutionEducationResponseDTO>>> getAllInstitutionEducation() {
         try {
             List<InstitutionEducation> institutionEducation = institutionEducationService.getAllInstitutionEducation();
-            ApiResponse<List<InstitutionEducation>> response = new ApiResponse<>(true,
-                    "All InstitutionEducation fetched successfully", institutionEducation);
+            
+            List<InstitutionEducationResponseDTO> institutionEducationResponseDTO = new ArrayList<>();
+            
+            institutionEducation.forEach( institution -> {
+                institutionEducationResponseDTO.add(InstitutionEducationMapper.institutionEducationToInstitutionEducationResponseDTO(institution));
+            });
+
+            ApiResponse<List<InstitutionEducationResponseDTO>> response = new ApiResponse<List<InstitutionEducationResponseDTO>>(true,
+                    "All InstitutionEducation fetched successfully", institutionEducationResponseDTO);
             return ResponseEntity.ok(response);
         } catch (Exception e) {
-            ApiResponse<List<InstitutionEducation>> errorResponse = new ApiResponse<>(false, e.getMessage(), null);
+            ApiResponse<List<InstitutionEducationResponseDTO>> errorResponse = new ApiResponse<>(false, e.getMessage(), null);
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
         }
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ApiResponse<InstitutionEducation>> getInstitutionEducationById(@PathVariable Long id) {
+    public ResponseEntity<ApiResponse<InstitutionEducationResponseDTO>> getInstitutionEducationById(@PathVariable Long id) {
         try {
             InstitutionEducation institutionEducation = institutionEducationService.getInstitutionEducationById(id);
             if (institutionEducation != null) {
-                ApiResponse<InstitutionEducation> response = new ApiResponse<>(true,
+                InstitutionEducationResponseDTO institutionEducationResponseDTO = InstitutionEducationMapper.institutionEducationToInstitutionEducationResponseDTO(institutionEducation);
+                ApiResponse<InstitutionEducationResponseDTO> response = new ApiResponse<InstitutionEducationResponseDTO>(true,
                         "InstitutionEducation found successfully",
-                        institutionEducation);
+                        institutionEducationResponseDTO);
                 return ResponseEntity.ok(response);
             } else {
-                ApiResponse<InstitutionEducation> response = new ApiResponse<>(false, "InstitutionEducation not found",
+                ApiResponse<InstitutionEducationResponseDTO> response = new ApiResponse<>(false, "InstitutionEducation not found",
                         null);
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
             }
         } catch (Exception e) {
-            ApiResponse<InstitutionEducation> errorResponse = new ApiResponse<>(false, e.getMessage(), null);
+            ApiResponse<InstitutionEducationResponseDTO> errorResponse = new ApiResponse<>(false, e.getMessage(), null);
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
         }
     }
 
     @PutMapping("/update/{id}")
-    public ResponseEntity<ApiResponse<InstitutionEducation>> update(@PathVariable Long id,
+    public ResponseEntity<ApiResponse<InstitutionEducationResponseDTO>> update(@PathVariable Long id,
             @RequestBody @Valid InstitutionEducationDTO InstitutionEducationDTO) {
         try {
             InstitutionEducation updatedInstitutionEducation = institutionEducationService.update(id,
                     InstitutionEducationDTO);
             if (updatedInstitutionEducation != null) {
-                ApiResponse<InstitutionEducation> response = new ApiResponse<>(true,
+                InstitutionEducationResponseDTO updatedInstitutionEducationResponseDTO = InstitutionEducationMapper.institutionEducationToInstitutionEducationResponseDTO(updatedInstitutionEducation);
+                ApiResponse<InstitutionEducationResponseDTO> response = new ApiResponse<InstitutionEducationResponseDTO>(true,
                         "InstitutionEducation updated successfully",
-                        updatedInstitutionEducation);
+                        updatedInstitutionEducationResponseDTO);
                 return ResponseEntity.ok(response);
             } else {
-                ApiResponse<InstitutionEducation> response = new ApiResponse<>(false, "InstitutionEducation not found",
+                ApiResponse<InstitutionEducationResponseDTO> response = new ApiResponse<>(false, "InstitutionEducation not found",
                         null);
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
             }
         } catch (Exception e) {
-            ApiResponse<InstitutionEducation> errorResponse = new ApiResponse<>(false, e.getMessage(), null);
+            ApiResponse<InstitutionEducationResponseDTO> errorResponse = new ApiResponse<>(false, e.getMessage(), null);
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
         }
     }

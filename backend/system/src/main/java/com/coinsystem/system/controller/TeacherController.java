@@ -1,5 +1,6 @@
 package com.coinsystem.system.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +19,7 @@ import com.coinsystem.system.DTO.TeacherDTO;
 import com.coinsystem.system.controller.ApiResponse.ApiResponse;
 import com.coinsystem.system.controller.ApiResponse.ApiResponseLogin;
 import com.coinsystem.system.infra.ITokenService;
+import com.coinsystem.system.mappers.TeacherMapper;
 import com.coinsystem.system.model.Student;
 import com.coinsystem.system.model.Teacher;
 import com.coinsystem.system.service.interfaces.ITeacherService;
@@ -35,43 +37,53 @@ public class TeacherController {
     private final ITokenService tokenService;
 
     @PostMapping("/register")
-    public ResponseEntity<ApiResponseLogin<Teacher>> register(@RequestBody @Valid TeacherDTO TeacherDTO) {
+    public ResponseEntity<ApiResponseLogin<TeacherDTO>> register(@RequestBody @Valid TeacherDTO TeacherDTO) {
         try {
             Teacher teacher = teacherService.register(TeacherDTO);
             String token = this.tokenService.generateToken(teacher);
-            ApiResponseLogin<Teacher> response = new ApiResponseLogin<Teacher>(true, "User registered succesfully", teacher,token);
+
+            TeacherDTO responseTeacherDTO = TeacherMapper.teacherToTeacherDTO(teacher);
+
+            ApiResponseLogin<TeacherDTO> response = new ApiResponseLogin<TeacherDTO>(true, "User registered succesfully", responseTeacherDTO, token);
             return ResponseEntity.status(HttpStatus.CREATED).body(response);
         } catch (Exception e) {
-            ApiResponseLogin<Teacher> errorResponse = new ApiResponseLogin<Teacher>(false, e.getMessage(), null,null);
+            ApiResponseLogin<TeacherDTO> errorResponse = new ApiResponseLogin<TeacherDTO>(false, e.getMessage(), null,null);
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
         }
     }
 
     @GetMapping("/all")
-    public ResponseEntity<ApiResponse<List<Teacher>>> getAllTeacher() {
+    public ResponseEntity<ApiResponse<List<TeacherDTO>>> getAllTeacher() {
         try {
             List<Teacher> teacher = teacherService.getAllTeacher();
-            ApiResponse<List<Teacher>> response = new ApiResponse<>(true, "All Teacher fetched successfully", teacher);
+            List<TeacherDTO> responseTeacherDTO = new ArrayList<>();
+
+            for (Teacher t : teacher) {
+                responseTeacherDTO.add(TeacherMapper.teacherToTeacherDTO(t));
+            }
+
+            ApiResponse<List<TeacherDTO>> response = new ApiResponse<>(true, "All Teacher fetched successfully", responseTeacherDTO);
             return ResponseEntity.ok(response);
         } catch (Exception e) {
-            ApiResponse<List<Teacher>> errorResponse = new ApiResponse<>(false, e.getMessage(), null);
+            ApiResponse<List<TeacherDTO>> errorResponse = new ApiResponse<>(false, e.getMessage(), null);
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
         }
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ApiResponse<Teacher>> getUserById(@PathVariable Long id) {
+    public ResponseEntity<ApiResponse<TeacherDTO>> getUserById(@PathVariable Long id) {
         try {
             Teacher Teacher = teacherService.getTeacherById(id);
             if (Teacher != null) {
-                ApiResponse<Teacher> response = new ApiResponse<>(true, "Teacher found successfully", Teacher);
+                TeacherDTO TeacherDTO = TeacherMapper.teacherToTeacherDTO(Teacher);
+                ApiResponse<TeacherDTO> response = new ApiResponse<>(true, "Teacher found successfully", TeacherDTO);
                 return ResponseEntity.ok(response);
             } else {
-                ApiResponse<Teacher> response = new ApiResponse<>(false, "Teacher not found", null);
+                ApiResponse<TeacherDTO> response = new ApiResponse<>(false, "Teacher not found", null);
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
             }
         } catch (Exception e) {
-            ApiResponse<Teacher> errorResponse = new ApiResponse<>(false, e.getMessage(), null);
+            ApiResponse<TeacherDTO> errorResponse = new ApiResponse<>(false, e.getMessage(), null);
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
         }
     }
@@ -101,19 +113,21 @@ public class TeacherController {
     }
 
     @PutMapping("/update/{id}")
-    public ResponseEntity<ApiResponse<Teacher>> update(@PathVariable Long id,
+    public ResponseEntity<ApiResponse<TeacherDTO>> update(@PathVariable Long id,
             @RequestBody @Valid TeacherDTO teacherDTO) {
         try {
             Teacher updatedTeacher = teacherService.update(id, teacherDTO);
             if (updatedTeacher != null) {
-                ApiResponse<Teacher> response = new ApiResponse<>(true, "Teacher updated successfully", updatedTeacher);
+                TeacherDTO responseTeacherDTO = TeacherMapper.teacherToTeacherDTO(updatedTeacher);
+
+                ApiResponse<TeacherDTO> response = new ApiResponse<>(true, "Teacher updated successfully", responseTeacherDTO);
                 return ResponseEntity.ok(response);
             } else {
-                ApiResponse<Teacher> response = new ApiResponse<>(false, "Teacher not found", null);
+                ApiResponse<TeacherDTO> response = new ApiResponse<>(false, "Teacher not found", null);
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
             }
         } catch (Exception e) {
-            ApiResponse<Teacher> errorResponse = new ApiResponse<>(false, e.getMessage(), null);
+            ApiResponse<TeacherDTO> errorResponse = new ApiResponse<>(false, e.getMessage(), null);
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
         }
     }
