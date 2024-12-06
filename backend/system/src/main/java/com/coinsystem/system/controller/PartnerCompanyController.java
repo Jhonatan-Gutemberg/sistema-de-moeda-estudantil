@@ -1,5 +1,6 @@
 package com.coinsystem.system.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +19,7 @@ import com.coinsystem.system.DTO.PartnerCompanyDTO;
 import com.coinsystem.system.controller.ApiResponse.ApiResponse;
 import com.coinsystem.system.controller.ApiResponse.ApiResponseLogin;
 import com.coinsystem.system.infra.ITokenService;
+import com.coinsystem.system.mappers.PartnerCompanyMapper;
 import com.coinsystem.system.model.PartnerCompany;
 import com.coinsystem.system.service.interfaces.IPartnerCompanyService;
 
@@ -34,66 +36,77 @@ public class PartnerCompanyController {
     private final ITokenService tokenService;
 
     @PostMapping("/register")
-    public ResponseEntity<ApiResponseLogin<PartnerCompany>> register(
+    // refatorar aqui pra tirar o institution education e colocar um dto de resposta
+    public ResponseEntity<ApiResponseLogin<PartnerCompanyDTO>> register(
             @RequestBody @Valid PartnerCompanyDTO partnerCompanyDTO) {
         try {
             PartnerCompany partnerCompany = partnerCompanyService.register(partnerCompanyDTO);
+            PartnerCompanyDTO responsePartnerCompanyDTO = PartnerCompanyMapper.partnerCompanyToPartnerCompanyDTO(partnerCompany);
             String token = this.tokenService.generateToken(partnerCompany);
-            ApiResponseLogin<PartnerCompany> response = new ApiResponseLogin<PartnerCompany>(true, "User registered succesfully",
-                    partnerCompany,token);
+            ApiResponseLogin<PartnerCompanyDTO> response = new ApiResponseLogin<PartnerCompanyDTO>(true, "User registered succesfully",
+                responsePartnerCompanyDTO,token);
             return ResponseEntity.status(HttpStatus.CREATED).body(response);
         } catch (Exception e) {
-            ApiResponseLogin<PartnerCompany> errorResponse = new ApiResponseLogin<PartnerCompany>(false, e.getMessage(), null,null);
+            ApiResponseLogin<PartnerCompanyDTO> errorResponse = new ApiResponseLogin<PartnerCompanyDTO>(false, e.getMessage(), null,null);
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
         }
     }
 
     @GetMapping("/all")
-    public ResponseEntity<ApiResponse<List<PartnerCompany>>> getAllPartnerCompany() {
+    public ResponseEntity<ApiResponse<List<PartnerCompanyDTO>>> getAllPartnerCompany() {
         try {
             List<PartnerCompany> partnerCompany = partnerCompanyService.getAllPartnerCompany();
-            ApiResponse<List<PartnerCompany>> response = new ApiResponse<>(true,
-                    "All PartnerCompany fetched successfully", partnerCompany);
+            List<PartnerCompanyDTO> partnerCompanyDTOs = new ArrayList<>();
+            
+            for (PartnerCompany partnerCompany2 : partnerCompany) {
+                partnerCompanyDTOs.add(PartnerCompanyMapper.partnerCompanyToPartnerCompanyDTO(partnerCompany2));
+            }
+
+            ApiResponse<List<PartnerCompanyDTO>> response = new ApiResponse<>(true,
+                    "All PartnerCompany fetched successfully", partnerCompanyDTOs);
             return ResponseEntity.ok(response);
         } catch (Exception e) {
-            ApiResponse<List<PartnerCompany>> errorResponse = new ApiResponse<>(false, e.getMessage(), null);
+            ApiResponse<List<PartnerCompanyDTO>> errorResponse = new ApiResponse<>(false, e.getMessage(), null);
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
         }
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ApiResponse<PartnerCompany>> getPartnerCompanyById(@PathVariable Long id) {
+    public ResponseEntity<ApiResponse<PartnerCompanyDTO>> getPartnerCompanyById(@PathVariable Long id) {
         try {
             PartnerCompany partnerCompany = partnerCompanyService.getPartnerCompanyById(id);
             if (partnerCompany != null) {
-                ApiResponse<PartnerCompany> response = new ApiResponse<>(true, "PartnerCompany found successfully",
-                        partnerCompany);
+                PartnerCompanyDTO partnerCompanyDTO = PartnerCompanyMapper.partnerCompanyToPartnerCompanyDTO(partnerCompany);
+                ApiResponse<PartnerCompanyDTO> response = new ApiResponse<>(true, "PartnerCompany found successfully",
+                partnerCompanyDTO);
                 return ResponseEntity.ok(response);
             } else {
-                ApiResponse<PartnerCompany> response = new ApiResponse<>(false, "PartnerCompany not found", null);
+                ApiResponse<PartnerCompanyDTO> response = new ApiResponse<>(false, "PartnerCompany not found", null);
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
             }
         } catch (Exception e) {
-            ApiResponse<PartnerCompany> errorResponse = new ApiResponse<>(false, e.getMessage(), null);
+            ApiResponse<PartnerCompanyDTO> errorResponse = new ApiResponse<>(false, e.getMessage(), null);
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
         }
     }
 
     @PutMapping("/update/{id}")
-    public ResponseEntity<ApiResponse<PartnerCompany>> update(@PathVariable Long id,
+    public ResponseEntity<ApiResponse<PartnerCompanyDTO>> update(@PathVariable Long id,
             @RequestBody @Valid PartnerCompanyDTO partnerCompanyDTO) {
         try {
             PartnerCompany updatedPartnerCompany = partnerCompanyService.update(id, partnerCompanyDTO);
             if (updatedPartnerCompany != null) {
-                ApiResponse<PartnerCompany> response = new ApiResponse<>(true, "PartnerCompany updated successfully",
-                        updatedPartnerCompany);
+                PartnerCompanyDTO updatedPartnerCompanyDTO = PartnerCompanyMapper.partnerCompanyToPartnerCompanyDTO(updatedPartnerCompany);
+
+                ApiResponse<PartnerCompanyDTO> response = new ApiResponse<>(true, "PartnerCompany updated successfully",
+                updatedPartnerCompanyDTO);
                 return ResponseEntity.ok(response);
             } else {
-                ApiResponse<PartnerCompany> response = new ApiResponse<>(false, "PartnerCompany not found", null);
+                ApiResponse<PartnerCompanyDTO> response = new ApiResponse<>(false, "PartnerCompany not found", null);
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
             }
         } catch (Exception e) {
-            ApiResponse<PartnerCompany> errorResponse = new ApiResponse<>(false, e.getMessage(), null);
+            ApiResponse<PartnerCompanyDTO> errorResponse = new ApiResponse<>(false, e.getMessage(), null);
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
         }
     }
